@@ -78,6 +78,56 @@ This would be a continuous variable, measured in distance in kilometers (since t
 #| message: false
 #| warning: false
 
-nests <- read_csv(here("data", "nest_data_final.csv"))
+# creating new object
+nests <- 
+  # reading in csv
+  read_csv(
+    # directing function to data folder
+    here("data", 
+         # csv: nest_data_final
+         "nest_data_final.csv"))
 ```
+
+## 2a. Clean and wrangle
+
+```{r}
+#| label: cleaning-and-wrangling-data
+
+# creating new object
+nests_clean <- 
+  # df: nests
+  nests |>
+  # selecting only necessary columns: tree height, bird nest occurrence, and ant species present
+  select(height_cm, case_control, ant_species) |>
+  # filtering ant_species column to not include NA or T. penzigi
+  filter(ant_species == "RRB" | ant_species == "AB" | ant_species == "BBR") |>
+  # reordering ant species levels
+  mutate(ant_species = as_factor(ant_species),
+         ant_species = fct_relevel(ant_species,
+                                    "RRB",
+                                    "AB",
+                                    "BBR")) |>
+   # creating new column to store ant species' binomial names
+  mutate(ant_species_name = case_match(
+    ant_species,
+    "RRB" ~ "Crematogaster mimosae", # C. mimosae
+    "AB" ~ "Crematogaster sjostedti", # C. sjostedti
+    "BBR" ~ "Crematogaster nigriceps")) # C. nigriceps
+  
+# creating new object
+  nests_clean_display <- 
+    # df: nests_clean
+    nests_clean |>
+    # selecting 10 random observations
+    slice_sample(n = 10)
+  
+  # displaying object
+  nests_clean_display
+```
+
+## 2b. Response variable
+
+**In 1-2 sentences, explain what the 1s and 0s mean in this data set biologically.**
+
+A 1 value in the case_control column corresponds to a tree that was observed to have a birds nest. A 0 value corresponds to a tree that did not have a birds nest, or was "available" for one. 
 
