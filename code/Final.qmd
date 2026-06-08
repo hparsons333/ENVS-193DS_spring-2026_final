@@ -11,7 +11,10 @@ https://github.com/hparsons333/ENVS-193DS_spring-2026_final
 
 # Setting up
 
-```{r loading-packages, message=FALSE, warning=FALSE}
+```{r}
+#| label: loading-packages
+#| message: false
+#| warning: false
 library(tidyverse)
 library(here)
 ```
@@ -24,7 +27,7 @@ library(here)
 
 **In part 2 of the results section of the report, your co-worker has written:**
 
-***We rejected the null hypothesis that there is no relationship between bird species (American Avocet, Forster’s Tern, Black-necked Stilt) and habitat (managed pond, non-tidal marsh, salt pond, tidal marsh, or tidal mudflat) (p < 0.001).***
+***We rejected the null hypothesis that there is no relationship between bird species (American Avocet, Forster’s Tern, Black-necked Stilt) and habitat (managed pond, non-tidal marsh, salt pond, tidal marsh, or tidal mudflat) (p \< 0.001).***
 
 **It’s great that this report is coming together, but you think they can improve on what they’ve written and make it more understandable to a non-statistical audience.**
 
@@ -32,7 +35,7 @@ library(here)
 
 **What statistical tests did your co-worker use?**
 
-**Clearly connect the test to the part that you are addressing (e.g. “In part 1, they used _______. In part 2, they used _______.”).**
+**Clearly connect the test to the part that you are addressing (e.g. “In part 1, they used \_\_\_\_\_\_\_. In part 2, they used \_\_\_\_\_\_\_.”).**
 
 In part 1, they used a simple linear regression to test if distance to water edge predicted American Avocet microhabitat use. In part 2, they used a correlation coefficient test to see if there was a relationship between bird species and habitat.
 
@@ -46,7 +49,7 @@ In part 1, they used a simple linear regression to test if distance to water edg
 
 Our results suggest that we can reject the null hypothesis that distance to water edge does not predict probability of American Avocet microhabitat use. Alternatively, we determine that the distance to water edge significantly predicts whether or not American Avocent will utilize microhabitats.
 
-### Rewriting statement b. 
+### Rewriting statement b.
 
 Our results suggest that we can reject the null hypothesis, which states that there is no relationship between the type of bird species found and the habitat type. Alternatively, we determine that there is a significant relationship between the type of bird species found and the habitat type.
 
@@ -62,6 +65,19 @@ In 1-2 sentences, outline:
 
 **Be specific with units, data collection method, etc. as needed.**
 
-Because American Avocet need their nesting, brooding-rearing, foraging, and roosting sites to be protected from predators, another variable that could influence the probability of American Avocet habitat use is island distance from landmass/shore, since increased distance from the nearest landmass would provide increased distance from larger predators. 
+Because American Avocet need their nesting, brooding-rearing, foraging, and roosting sites to be protected from predators, another variable that could influence the probability of American Avocet habitat use is island distance from landmass/shore, since increased distance from the nearest landmass would provide increased distance from larger predators.
 
-This would be a continuous variable, measured in distance in kilometers (since the area of the pond is measured in kilometers squared). 
+This would be a continuous variable, measured in distance in kilometers (since the area of the pond is measured in kilometers squared).
+
+# Problem 2. Data analysis
+
+## Reading in data
+
+```{r}
+#| label: reading-in-data
+#| message: false
+#| warning: false
+
+nests <- read_csv(here("data", "nest_data_final.csv"))
+```
+
