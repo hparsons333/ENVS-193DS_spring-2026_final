@@ -44,14 +44,24 @@ In part 1, they used a simple linear regression to test if distance to water edg
 
 ### Rewriting statement a
 
-Our results suggest that we can reject the null hypothesis that distance to water edge does not predict probability of American Avocet microhabitat use. Alternatively, we determine that the distance to water edge significantly predicts American Avocent microhabitat use. 
+Our results suggest that we can reject the null hypothesis that distance to water edge does not predict probability of American Avocet microhabitat use. Alternatively, we determine that the distance to water edge significantly predicts whether or not American Avocent will utilize microhabitats.
 
 ### Rewriting statement b. 
 
 Our results suggest that we can reject the null hypothesis, which states that there is no relationship between the type of bird species found and the habitat type. Alternatively, we determine that there is a significant relationship between the type of bird species found and the habitat type.
 
+## 1c. Further analysis
 
+In 1-2 sentences, outline:
 
+**- one additional variable that could influence the probability of American Avocet microhabitat use**
 
+**- what type of variable it is (with units and/or levels, if applicable)**
 
+**- why that variable might influence American Avocet habitat use.**
 
+**Be specific with units, data collection method, etc. as needed.**
+
+Because American Avocet need their nesting, brooding-rearing, foraging, and roosting sites to be protected from predators, another variable that could influence the probability of American Avocet habitat use is island distance from landmass/shore, since increased distance from the nearest landmass would provide increased distance from larger predators. 
+
+This would be a continuous variable, measured in distance in kilometers (since the area of the pond is measured in kilometers squared). 
