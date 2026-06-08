@@ -35,3 +35,23 @@ library(here)
 **Clearly connect the test to the part that you are addressing (e.g. “In part 1, they used _______. In part 2, they used _______.”).**
 
 In part 1, they used a simple linear regression to test if distance to water edge predicted American Avocet microhabitat use. In part 2, they used a correlation coefficient test to see if there was a relationship between bird species and habitat.
+
+## 1b. Suggestions for rewriting
+
+**In 1-3 sentences, write new statements with interpretation only for the statements in part a and b.**
+
+**Be sure your interpretation makes sense without any statistical summary (which, again, you should not include).**
+
+### Rewriting statement a
+
+Our results suggest that we can reject the null hypothesis that distance to water edge does not predict probability of American Avocet microhabitat use. Alternatively, we determine that the distance to water edge significantly predicts American Avocent microhabitat use. 
+
+### Rewriting statement b. 
+
+Our results suggest that we can reject the null hypothesis, which states that there is no relationship between the type of bird species found and the habitat type. Alternatively, we determine that there is a significant relationship between the type of bird species found and the habitat type.
+
+
+
+
+
+
