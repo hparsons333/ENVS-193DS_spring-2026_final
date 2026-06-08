@@ -1,0 +1,19 @@
+---
+title: "ENVS 193DS Final"
+author: "Helena Parsons"
+format: pdf
+editor: visual
+---
+
+# Link to Github repo
+
+https://github.com/hparsons333/ENVS-193DS_spring-2026_final
+
+# Setting up
+
+```{r loading-packages, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(here)
+```
+
+# 
