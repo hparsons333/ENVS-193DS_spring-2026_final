@@ -17,6 +17,9 @@ https://github.com/hparsons333/ENVS-193DS_spring-2026_final
 #| warning: false
 library(tidyverse)
 library(here)
+library(MuMIn)
+library(ggeffects)
+library(DHARMa)
 ```
 
 # Problem 1. Research writing
@@ -123,6 +126,8 @@ nests_clean <-
   
   # displaying object
   nests_clean_display
+  
+  str(nests_clean)
 ```
 
 ## 2b. Response variable
@@ -145,13 +150,33 @@ Tree height is continuous data. Nest occurrence may be influenced by tree height
 
 ## 2d. Table of models
 
-| Model number | Ant species | Tree height | Predictor list |      
-|--------------|:-----------:|:-----------:|:--------------:| 
-| 0            |             |             |                |
-| 1            |      X      |      X      |                |
+| Model number | Ant species | Tree height | Predictor list                                 |      
+|--------------|:-----------:|:-----------:|:----------------------------------------------:| 
+| 0            |      X      |     X       | all predictors (full model)                    |
+| 1            |             |     x       | tree height W/interaction effect of ant species|
 
 ## 2e. Run the models
 
+```{r}
 
-  
-  
+# model 0: all predictors
+model0 <- lm(
+  case_control ~ ant_species + height_cm, # formula: all predictors
+  data = nests_clean) # clean data frame
+
+# model 1: tree height as a predictor with interaction effect
+
+model1 <- lm(
+  case_control ~ height_cm * ant_species, # formula: all predictors
+  data = nests_clean) # clean data frame
+```
+
+## 2f.   
+
+```{r}
+AICc(model0,
+     model1)
+```
+
+The best model as determined by Akaike’s Information Criterion (AIC) was the model where acacia ant species identity influenced the effect of tree height on probability of nest occurrence.
+
