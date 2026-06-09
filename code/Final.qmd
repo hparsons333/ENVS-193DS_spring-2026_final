@@ -302,10 +302,44 @@ This analysis is appropriate in regards to my question because I am comparing th
 
 **your variables and what types of variables they are**
 
-My variables are my response variable, which is discrete data counted as the time I spent on the job search in minutes, and my explanatory variable, which is categorical data recorded as the level of stress I felt on the day I took my observation.
+My variables are my response variable, which is continuous data counted as the time I spent on the job search in minutes, and my explanatory variable, which is categorical data recorded as the level of stress I felt on the day I took my observation.
+
+*Note: (I think that the time I spent on the job search can be counted as continuous in this case, because you could count them as decimals.)*
 
 ## 3c. Check your assumptions and run your analysis
 
+
+```{r}
+#| label: reading-in-data
+
+# creating new object
+persona_data <- 
+  # reading csv
+  read_csv(
+    # directing function to data folder
+    here("data",
+         # csv: Personal Data - Sheet1.csv)
+         "Personal Data - Sheet1.csv"
+  ))
+```
+
+```{r}
+# creating new object
+qqplot_temp <- 
+  # baselayer: ggplot
+  ggplot(
+    # df: 
+    data = kelp,
+    # variable: temp
+       aes(sample = temp_c)) +
+  # first layer: distribution of temp observations
+       stat_qq(distribution=qnorm) +
+  # second layer: expected distribution of temp
+stat_qq_line( col = "black")
+
+# displaying object
+qqplot_temp
+```
 
 
 
