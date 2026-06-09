@@ -171,7 +171,7 @@ model1 <- lm(
   data = nests_clean) # clean data frame
 ```
 
-## 2f.   
+## 2f. Select the best model    
 
 ```{r}
 AICc(model0,
@@ -180,3 +180,4 @@ AICc(model0,
 
 The best model as determined by Akaike’s Information Criterion (AIC) was the model where acacia ant species identity influenced the effect of tree height on probability of nest occurrence.
 
+## 2g. Check diagnostics
