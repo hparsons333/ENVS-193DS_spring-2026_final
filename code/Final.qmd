@@ -222,11 +222,12 @@ ggplot(
                      y = case_control,
                      # color by ant species
                      color = ant_species_name)) +
-  # 
+  # first layer: jitterplot
   geom_jitter(height = 0,
               width = 0.1,
               shape = 21,
               alpha = 0.8) +
+  # second layer: model estimate
   geom_pointrange(data = preds,
                   mapping = aes(x = height_cm,
                                 y = predicted,
@@ -243,3 +244,10 @@ ggplot(
   facet_wrap(~ ant_species_name)
 ```
 
+## 2i. Write a caption for your figure
+
+**Figure 1. Effect of tree height on nest occurrence differs by acacia ant species.** Small transparent dots represent measurements of nest occurrence at different tree heights in the presence of three different species of ants:  C. mimosae, C. sjostedti, and C. nigriceps. Large filled points represent estimated nest occurrence at different tree heights in the presence of the three ant species. Lujan, E., Nielsen, R., Short, Z., Wicks, S., Nderitu Watetu, W., Malingati Khasoha, L., Palmer, T. M., Goheen, J. R., & Alston, J. M. (2023). Data, code, and metadata for: Symbiotic acacia ants drive nesting behavior by birds in an African savanna [Data set]. Zenodo. https://doi.org/10.5281/zenodo.8373322
+
+## 2j. Calculate model predictions
+
+## 2k. Interpret your results
