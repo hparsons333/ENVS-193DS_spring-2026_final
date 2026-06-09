@@ -288,4 +288,24 @@ I mostly see what could be described as a negative linear relationship, or a neg
 
 The two suggestions that I got from workshop and implemented were to use briefcases as representations of my data points, and to color in the balloons to represent decreasing and increasing levels of stress. These were both extremely helpful, as using briefcases was more effective at representing the response variable I had chosen, and coloring the balloons by stress allowed me to get rid of visual clutter (where I initially created a color gradient below the data points) and represent increasing feelings of stress through the transition of cool colors to warm colors.
 
-##
+## 3b. Designing an analysis
+
+**Based on your response variable and one of your potential predictor variables (your focal variable or otherwise), propose one analysis that we talked about this quarter that you could apply to answer your research question(s).**
+
+Because I created my affective visualization based on stress as a predictor variable of the time spent on my job search, I want to run an ANOVA to see if there is any difference in the measure of central tendency for the time spent on my job search between levels of stress. 
+
+**Additionally, explain why this analysis is appropriate with regard to:**
+
+**- your question** 
+
+This analysis is appropriate in regards to my question because I am comparing the mean time spent on my job search across more than three groups, which are the levels of stress that I determined.
+
+**your variables and what types of variables they are**
+
+My variables are my response variable, which is discrete data counted as the time I spent on the job search in minutes, and my explanatory variable, which is categorical data recorded as the level of stress I felt on the day I took my observation.
+
+## 3c. Check your assumptions and run your analysis
+
+
+
+
