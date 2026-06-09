@@ -38,7 +38,7 @@ library(DHARMa)
 
 **What statistical tests did your co-worker use?**
 
-**Clearly connect the test to the part that you are addressing (e.g. “In part 1, they used \_\_\_\_\_\_\_. In part 2, they used \_\_\_\_\_\_\_.”).**
+**Clearly connect the test to the part that you are addressing (e.g. “In part 1, they used ________. In part 2, they used ________.”).**
 
 In part 1, they used a simple linear regression to test if distance to water edge predicted American Avocet microhabitat use. In part 2, they used a correlation coefficient test to see if there was a relationship between bird species and habitat.
 
@@ -135,15 +135,13 @@ nests_clean <-
 
 **In 1-2 sentences, explain what the 1s and 0s mean in this data set biologically.**
 
-A 1 value in the case_control column corresponds to a tree that was observed to have a birds nest. A 0 value corresponds to a tree that did not have a birds nest, or was "available" for one. 
+A 1 value in the case_control column corresponds to a tree that was observed to have a birds nest. A 0 value corresponds to a tree that did not have a birds nest, or was "available" for one.
 
 ## 2c. Purpose of study
 
 **In 2-3 sentences for each predictor, describe:**
 
-**- what kind of variable it is (i.e. continuous, discrete, categorical, etc.)**
-**- how it could possibly influence the probability of nest occurrence (i.e. as tree height increases, the probability of probability of nest occurrence would ______________ because…)**
-**- where in the paper you found this information (the specific section, subsection, and paragraph)**
+**- what kind of variable it is (i.e. continuous, discrete, categorical, etc.)** **- how it could possibly influence the probability of nest occurrence (i.e. as tree height increases, the probability of probability of nest occurrence would \_\_\_\_\_\_\_\_\_\_\_\_\_\_ because…)** **- where in the paper you found this information (the specific section, subsection, and paragraph)**
 
 The type of ant species found is a categorical variable. Nest occurrence is predicted to be influenced by the aggression of the ant species found in each tree, and nest occurrence will increase with more aggressive species of ants found, because ants will indirectly protect the nests from predation. I found information about the hypothesis in fourth paragraph of the introduction, the collection of the data for ants in the first paragraph of the methods. and the results for the model of ant species as a predictor in the third paragraph of the results.
 
@@ -151,10 +149,10 @@ Tree height is continuous data. Nest occurrence may be influenced by tree height
 
 ## 2d. Table of models
 
-| Model number | Ant species | Tree height | Predictor list                                 |      
-|--------------|:-----------:|:-----------:|:----------------------------------------------:| 
-| 0            |      X      |     X       | all predictors (full model)                    |
-| 1            |             |     x       | tree height W/interaction effect of ant species|
+| Model number | Ant species | Tree height | Predictor list |
+|-------------|:-----------:|:-----------:|:-------------------------------:|
+| 0 | X | X | all predictors (full model) |
+| 1 |  | x | tree height W/interaction effect of ant species |
 
 ## 2e. Run the models
 
@@ -171,7 +169,7 @@ model1 <- lm(
   data = nests_clean) # clean data frame
 ```
 
-## 2f. Select the best model    
+## 2f. Select the best model
 
 ```{r}
 
@@ -246,11 +244,10 @@ ggplot(
 
 ## 2i. Write a caption for your figure
 
-**Figure 1. Effect of tree height on nest occurrence differs by acacia ant species.** Small transparent dots represent measurements of nest occurrence at different tree heights in the presence of three different species of ants:  C. mimosae, C. sjostedti, and C. nigriceps. Large filled points represent estimated nest occurrence at different tree heights in the presence of the three ant species. Lujan, E., Nielsen, R., Short, Z., Wicks, S., Nderitu Watetu, W., Malingati Khasoha, L., Palmer, T. M., Goheen, J. R., & Alston, J. M. (2023). Data, code, and metadata for: Symbiotic acacia ants drive nesting behavior by birds in an African savanna [Data set]. Zenodo. https://doi.org/10.5281/zenodo.8373322
+**Figure 1. Effect of tree height on nest occurrence differs by acacia ant species.** Small transparent dots represent measurements of nest occurrence at different tree heights in the presence of three different species of ants: C. mimosae, C. sjostedti, and C. nigriceps. Large filled points represent estimated nest occurrence at different tree heights in the presence of the three ant species. Lujan, E., Nielsen, R., Short, Z., Wicks, S., Nderitu Watetu, W., Malingati Khasoha, L., Palmer, T. M., Goheen, J. R., & Alston, J. M. (2023). Data, code, and metadata for: Symbiotic acacia ants drive nesting behavior by birds in an African savanna \[Data set\]. Zenodo. https://doi.org/10.5281/zenodo.8373322
 
 ## 2j. Calculate model predictions
 
-```{r}
 ```{r}
 #| label: model-predictions
 
@@ -267,16 +264,28 @@ preds_2 <-
          ant_species_name = group)
 ```
 
-
 ## 2k. Interpret your results
-
 
 # Problem 3. Affective and explaoratory visualizations
 
-Compare and contrast your affective visualization from Homework 3 and the exploratory visualizations you made for Homework 2. In 1-3 sentences each, explain:
+## 3a. Comparing visualizations
 
-How are the visualizations different from each other in the way you have represented your data?
-What similarities do you see between all your visualizations?
-What patterns (e.g. differences in means/counts/proportions/medians, trends through time, relationships between variables) do you see in each visualization? Are these different between visualizations? If so, why? If not, why not?
-What kinds of feedback did you get during week 9 in workshop or from the instructors? How did you implement or try those suggestions? If you tried and kept those suggestions, explain how and why; if not, explain why not.
+**Compare and contrast your affective visualization from Homework 3 and the exploratory visualizations you made for Homework 2. In 1-3 sentences each, explain:**
 
+**- How are the visualizations different from each other in the way you have represented your data?**
+
+The visualization that I created in homework 2 were very basic, and didn't clearly display a trend or the relationship I was trying to visualize (although this may have also been because I didn't have enough data points yet). The affective visualization was a lot more abstract, and did require the artist statement to be fully understood, but I feel like it represented the relationship I wanted to display from the figures that I choose to represent the data point and the background I chose as well.
+
+**- What similarities do you see between all your visualizations?**
+
+I chose to use the scatter plot for both my exploratory visualization and my affective visualization, and between all my visualizations there seems to be the most weight on the left side of the axis rather than the right, most likely because both the stress and outside engagement variables increased as time spent on the job search decreased.
+
+**- What patterns (e.g. differences in means/counts/proportions/medians, trends through time, relationships between variables) do you see in each visualization? Are these different between visualizations? If so, why? If not, why not?** 
+
+I mostly see what could be described as a negative linear relationship, or a negative trend, between both my outside engagements and time spent on the job search, and my level of stress and time spent on the job search. These are similar because when I am stressed or when I have a lot of outside engagements, I either feel less motivated to spend time on a job search (because I am concerned about other work that I have) or because I do not have the time available to apply. 
+
+**- What kinds of feedback did you get during week 9 in workshop or from the instructors? How did you implement or try those suggestions? If you tried and kept those suggestions, explain how and why; if not, explain why not.**
+
+The two suggestions that I got from workshop and implemented were to use briefcases as representations of my data points, and to color in the balloons to represent decreasing and increasing levels of stress. These were both extremely helpful, as using briefcases was more effective at representing the response variable I had chosen, and coloring the balloons by stress allowed me to get rid of visual clutter (where I initially created a color gradient below the data points) and represent increasing feelings of stress through the transition of cool colors to warm colors.
+
+##
