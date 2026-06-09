@@ -104,18 +104,19 @@ nests_clean <-
   select(height_cm, case_control, ant_species) |>
   # filtering ant_species column to not include NA or T. penzigi
   filter(ant_species == "RRB" | ant_species == "AB" | ant_species == "BBR") |>
-  # reordering ant species levels
-  mutate(ant_species = as_factor(ant_species),
-         ant_species = fct_relevel(ant_species,
-                                    "RRB",
-                                    "AB",
-                                    "BBR")) |>
-   # creating new column to store ant species' binomial names
+  # creating new column to store ant species' binomial names
   mutate(ant_species_name = case_match(
     ant_species,
     "RRB" ~ "Crematogaster mimosae", # C. mimosae
     "AB" ~ "Crematogaster sjostedti", # C. sjostedti
-    "BBR" ~ "Crematogaster nigriceps")) # C. nigriceps
+    "BBR" ~ "Crematogaster nigriceps")) |> # C. nigriceps
+  # reordering ant species levels
+  mutate(ant_species_name = as_factor(ant_species_name),
+         ant_species_name = fct_relevel(ant_species_name,
+                                    "Crematogaster mimosae",
+                                    "Crematogaster sjostedti",
+                                    "Crematogaster nigriceps"))
+
   
 # creating new object
   nests_clean_display <- 
@@ -161,12 +162,12 @@ Tree height is continuous data. Nest occurrence may be influenced by tree height
 
 # model 0: all predictors
 model0 <- lm(
-  case_control ~ ant_species + height_cm, # formula: all predictors
+  case_control ~ ant_species_name + height_cm, # formula: all predictors
   data = nests_clean) # clean data frame
 
 # model 1: tree height as a predictor with interaction effect of ant_species
 model1 <- lm(
-  case_control ~ height_cm * ant_species, # formula: height_cm w/interaction effect of ant_species
+  case_control ~ height_cm * ant_species_name, # formula: height_cm w/interaction effect of ant_species
   data = nests_clean) # clean data frame
 ```
 
@@ -202,26 +203,43 @@ preds <-
     # model: model1
     model1,
     # terms: case_control as predicted by effect of height_cm by ant species
-                   terms = c("height_cm", "ant_species")) |>
+                   terms = c("height_cm", "ant_species_name")) |>
   # renaming
   rename(height_cm = x,
-         ant_species = group)
+         ant_species_name = group)
 ```
 
 ```{r}
-ggplot(data = nests_clean,
+#| label: visualizing-model
+
+# base layer: ggplot
+ggplot(
+  # df: clean nests data
+  data = nests_clean,
+  # x-axis: tree height
+  # y-axis: bird nest occurrence 
        mapping = aes(x = height_cm,
                      y = case_control,
-                     color = ant_species)) +
+                     # color by ant species
+                     color = ant_species_name)) +
+  # 
   geom_jitter(height = 0,
               width = 0.1,
               shape = 21,
               alpha = 0.8) +
   geom_pointrange(data = preds,
-                  mapping = aes(x = water_treatment,
+                  mapping = aes(x = height_cm,
                                 y = predicted,
                                 ymin = conf.low,
                                 ymax = conf.high)) +
-  facet_wrap(~ species_name)
+  scale_color_manual(values = c("darkorchid", "turquoise4", "hotpink")) +
+  labs(title = "Effect of tree height on nest occurrence differs by acacia ant species",
+       x = "Tree height (cm)",
+       y = "Nest presence") + 
+  theme_bw() +
+  theme(legend.position = "none") +
+  theme(panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()) +
+  facet_wrap(~ ant_species_name)
 ```
 
