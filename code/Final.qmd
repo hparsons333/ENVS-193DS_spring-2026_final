@@ -164,16 +164,17 @@ model0 <- lm(
   case_control ~ ant_species + height_cm, # formula: all predictors
   data = nests_clean) # clean data frame
 
-# model 1: tree height as a predictor with interaction effect
-
+# model 1: tree height as a predictor with interaction effect of ant_species
 model1 <- lm(
-  case_control ~ height_cm * ant_species, # formula: all predictors
+  case_control ~ height_cm * ant_species, # formula: height_cm w/interaction effect of ant_species
   data = nests_clean) # clean data frame
 ```
 
 ## 2f. Select the best model    
 
 ```{r}
+
+# calculating lowest AIC value between models
 AICc(model0,
      model1)
 ```
@@ -181,3 +182,46 @@ AICc(model0,
 The best model as determined by Akaike’s Information Criterion (AIC) was the model where acacia ant species identity influenced the effect of tree height on probability of nest occurrence.
 
 ## 2g. Check diagnostics
+
+```{r}
+# displaying plots in 2x2 grid
+par(mfrow = c(2,2))
+# generating diagnostic plots
+plot(model1)
+```
+
+## 2h. Visualize the model predictions
+
+```{r}
+#| label: model-predictions
+
+# creating a new object
+preds <- 
+  # generating model based estimate
+  ggpredict(
+    # model: model1
+    model1,
+    # terms: case_control as predicted by effect of height_cm by ant species
+                   terms = c("height_cm", "ant_species")) |>
+  # renaming
+  rename(height_cm = x,
+         ant_species = group)
+```
+
+```{r}
+ggplot(data = nests_clean,
+       mapping = aes(x = height_cm,
+                     y = case_control,
+                     color = ant_species)) +
+  geom_jitter(height = 0,
+              width = 0.1,
+              shape = 21,
+              alpha = 0.8) +
+  geom_pointrange(data = preds,
+                  mapping = aes(x = water_treatment,
+                                y = predicted,
+                                ymin = conf.low,
+                                ymax = conf.high)) +
+  facet_wrap(~ species_name)
+```
+
