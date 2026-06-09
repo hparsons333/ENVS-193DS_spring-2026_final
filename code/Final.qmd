@@ -131,3 +131,17 @@ nests_clean <-
 
 A 1 value in the case_control column corresponds to a tree that was observed to have a birds nest. A 0 value corresponds to a tree that did not have a birds nest, or was "available" for one. 
 
+## 2c. Purpose of study
+
+**In 2-3 sentences for each predictor, describe:**
+
+**- what kind of variable it is (i.e. continuous, discrete, categorical, etc.)**
+**- how it could possibly influence the probability of nest occurrence (i.e. as tree height increases, the probability of probability of nest occurrence would ______________ because…)**
+**- where in the paper you found this information (the specific section, subsection, and paragraph)**
+
+The type of ant species found is a categorical variable. Nest occurrence is predicted to be influenced by the aggression of the ant species found in each tree, and nest occurrence will increase with more aggressive species of ants found, because ants will indirectly protect the nests from predation. I found information about the hypothesis in fourth paragraph of the introduction, the collection of the data for ants in the first paragraph of the methods. and the results for the model of ant species as a predicotr in the third paragraph of the results.
+
+Tree height is continuous data. Nest occurrence may be influenced by tree height in that as tree height increases, nest occurrence probability will increase, as being further from the ground provides more protection from predators. I found the information about how tree height data was collected in the first paragraph of the methods, the results for the model of tree height as a predictor in the second paragraph of the results section, and information on what type of data it was in the table of the results section.
+
+## 2d. Table of models
+
