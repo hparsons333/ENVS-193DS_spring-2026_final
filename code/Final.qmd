@@ -229,33 +229,53 @@ ggplot(
                      y = case_control,
                      # color by ant species
                      color = ant_species_name)) +
-  # first layer: jitterplot
-  geom_jitter(height = 0,
-              width = 0.1,
-              shape = 21,
-              alpha = 0.8) +
+  # first layer: scatterplot
+  geom_point(size = 3,
+             alpha = 0.4) +
+  # second layer: ribbon to represent confidence interval
+  geom_ribbon(
+    # df: preds
+    data = preds,
+    # x-axis: height_cm
+    # y-axis: predicted bird nest occurrence
+    # y-min: lower bound of confidence interval
+    # y-max: upper bound of confidence interval
+              aes(x = height_cm,
+                  y = predicted,
+                  ymin = conf.low,
+                  ymax = conf.high),
+    # changing ribbon to be transparent
+              alpha = 0.4) +
   # second layer: model estimate
-  geom_pointrange(data = preds,
-                  mapping = aes(x = height_cm,
-                                y = predicted,
-                                ymin = conf.low,
-                                ymax = conf.high)) +
-  scale_color_manual(values = c("darkorchid", "turquoise4", "hotpink")) +
-  labs(title = "Effect of tree height on nest occurrence differs by acacia ant species",
-       x = "Tree height (cm)",
-       y = "Nest presence") + 
+  geom_line(
+    # df: preds
+    data = preds,
+    # x-axis: height_cm
+            aes(x = height_cm,
+                # y-axis: predicted nest occurrence
+                   y = predicted)) +
+  # changing the theme
   theme_bw() +
+  # separating plots by ant species present
+  facet_wrap(~ ant_species_name) +
+  # getting rid of legend
   theme(legend.position = "none") +
+  # changing colors
+  scale_color_manual(values = c("darkorchid", "turquoise", "hotpink")) +
+  # getting rid of grid lines 
   theme(panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank()) +
-  facet_wrap(~ ant_species_name)
+        panel.grid.minor= element_blank())
 ```
 
 ## 2i. Write a caption for your figure
 
-**Figure 1. Effect of tree height on nest occurrence differs by acacia ant species.** Small transparent dots represent measurements of nest occurrence at different tree heights in the presence of three different species of ants: C. mimosae, C. sjostedti, and C. nigriceps. Large filled points represent estimated nest occurrence at different tree heights in the presence of the three ant species. Lujan, E., Nielsen, R., Short, Z., Wicks, S., Nderitu Watetu, W., Malingati Khasoha, L., Palmer, T. M., Goheen, J. R., & Alston, J. M. (2023). Data, code, and metadata for: Symbiotic acacia ants drive nesting behavior by birds in an African savanna \[Data set\]. Zenodo. https://doi.org/10.5281/zenodo.8373322
+**Figure 1. Effect of tree height on nest occurrence differs by acacia ant species.** Small transparent dots represent measurements of nest occurrence at different tree heights in the presence of three different species of ants: C. mimosae, C. sjostedti, and C. nigriceps. Lines represent estimated nest occurrence at different tree heights in the presence of the three ant species. Ribbon represents the confidence interval for the estimate of the model. Data originally from: Lujan, E., Nielsen, R., Short, Z., Wicks, S., Nderitu Watetu, W., Malingati Khasoha, L., Palmer, T. M., Goheen, J. R., & Alston, J. M. (2023). Data, code, and metadata for: Symbiotic acacia ants drive nesting behavior by birds in an African savanna \[Data set\]. Zenodo. https://doi.org/10.5281/zenodo.8373322
 
 ## 2j. Calculate model predictions
+
+```{r}
+summary(model1)
+```
 
 ```{r}
 #| label: model-predictions
@@ -269,6 +289,12 @@ ggplot(
 ```
 
 ## 2k. Interpret your results
+
+Bird nest occurrence tends to significantly increase with increasing tree height in the presence of *C. nigriceps* as the trendline visualizes in Figure 1. 
+
+*C. nigriceps* ants are more aggressive than *C. sjostedti* and *C. mimosae*, and birds may be selecting for these trees that are both taller and host the more aggressive acacia ant species, because this increases their protection from predators and therefore their fitness. 
+
+In the presence of *C. nigriceps*, with every 1 cm increase in height the odds of a bird nesting in a tree increases by a factor of 1.1 (95% CI: [0,0], p = 0.008, $\alpha$ = 0.05). In the presence of *C. nigriceps*, with a tree height of 600 cm, the probability of a bird nesting in that tree is 1 (95% CI: [1,1]).
 
 # Problem 3. Affective and explaoratory visualizations
 
