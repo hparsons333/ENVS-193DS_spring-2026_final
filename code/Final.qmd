@@ -1,6 +1,8 @@
 ---
 title: "ENVS 193DS Final"
 author: "Helena Parsons"
+date: "2026-06-09"
+toc: true
 format: pdf
 editor: visual
 ---
@@ -15,6 +17,8 @@ https://github.com/hparsons333/ENVS-193DS_spring-2026_final
 #| label: loading-packages
 #| message: false
 #| warning: false
+
+# loading necessary packages
 library(tidyverse)
 library(here)
 library(MuMIn)
@@ -24,6 +28,32 @@ library(janitor)
 library(readxl)
 library(gt)
 library(rstatix)
+```
+
+# Reading in data
+
+```{r}
+#| label: reading-in-data
+#| message: false
+#| warning: false
+
+# creating new object
+nests <- 
+  # reading in csv
+  read_csv(
+    # directing function to data folder
+    here("data", 
+         # csv: nest_data_final
+         "nest_data_final.csv"))
+
+# creating new object
+personal_data <- 
+  # reading csv
+  read_csv(
+    # directing function to data folder
+    here("data",
+         # csv: Personal Data - Sheet1.csv)
+         "personal-data.csv"))
 ```
 
 # Problem 1. Research writing
@@ -78,33 +108,17 @@ This would be a continuous variable, measured in distance in kilometers (since t
 
 # Problem 2. Data analysis
 
-## Reading in data
-
-```{r}
-#| label: reading-in-data
-#| message: false
-#| warning: false
-
-# creating new object
-nests <- 
-  # reading in csv
-  read_csv(
-    # directing function to data folder
-    here("data", 
-         # csv: nest_data_final
-         "nest_data_final.csv"))
-```
-
 ## 2a. Clean and wrangle
 
 ```{r}
 #| label: cleaning-and-wrangling-data
+#| warning: false
 
 # creating new object
 nests_clean <- 
   # df: nests
   nests |>
-  # selecting only necessary columns: tree height, bird nest occurrence, and ant species present
+  # selecting only necessary columns
   select(height_cm, case_control, ant_species) |>
   # filtering ant_species column to not include NA or T. penzigi
   filter(ant_species == "RRB" | ant_species == "AB" | ant_species == "BBR") |>
@@ -131,8 +145,6 @@ nests_clean <-
   
   # displaying object
   nests_clean_display
-  
-  str(nests_clean)
 ```
 
 ## 2b. Response variable
@@ -153,10 +165,10 @@ Tree height is continuous data. Nest occurrence may be influenced by tree height
 
 ## 2d. Table of models
 
-| Model number | Ant species | Tree height | Predictor list |
-|----------------|:--------------:|:--------------:|:----------------------:|
-| 0 | X | X | all predictors (full model) |
-| 1 |  | x | tree height W/interaction effect of ant species |
+|-Model number-|-Ant species-|-Tree height-|-Predictor list---------------------------------|
+|:------------:|:-----------:|:-----------:|:----------------------------------------------:|
+|------0-------|------X------|------X------|-all predictors (full model)--------------------|
+| -----1------ |-------------|------x------|-tree height W/interaction effect of ant species|
 
 ## 2e. Run the models
 
@@ -170,7 +182,7 @@ model0 <- glm(
 
 # model 1: tree height as a predictor with interaction effect of ant_species
 model1 <- glm(
-  case_control ~ height_cm * ant_species_name, # formula: height_cm w/interaction effect of ant_species
+  case_control ~ height_cm * ant_species_name, # formula: interaction effect
   data = nests_clean, # clean data frame
   family = "binomial") # family is binary response variable
 ```
@@ -201,6 +213,8 @@ plot(simulateResiduals(model1))
 
 ```{r}
 #| label: first-model-prediction
+#| message: false
+#| warning: false
 
 # creating a new object
 preds <- 
@@ -273,10 +287,6 @@ ggplot(
 ## 2j. Calculate model predictions
 
 ```{r}
-summary(model1)
-```
-
-```{r}
 #| label: model-predictions
 
   # generating model based estimate
@@ -338,16 +348,7 @@ My variables are my response variable, which is discrete data counted as the tim
 ### Creating an object for personal data
 
 ```{r}
-#| label: reading-in-personal-data
-
-# creating new object
-personal_data <- 
-  # reading csv
-  read_csv(
-    # directing function to data folder
-    here("data",
-         # csv: Personal Data - Sheet1.csv)
-         "personal-data.csv"))
+#| label: cleaning-personal-data
 
 # creating new object
 personal_data_clean <- 
@@ -405,37 +406,7 @@ stat_qq_line( col = "black")
 qqplot_stress
 ```
 
-*Note: definitely not normally distributed, so Spearman's* $\rho$ is required.
-
-### Displaying visual relationship
-
-```{r}
-# creating a new object
-visual_test <- 
-  # base layer: ggplot
-  ggplot(
-    # df: personal_data
-    data = personal_data,
-    # x-axis: outside_eng
-    # y-axis: job_search
-       mapping = aes(x = outside_eng,
-                     y = job_search)) +
-  # first layer: scatterplot
-  geom_point(
-    # changing color of points
-    color = "magenta4") +
-  # changing theme
-  theme_classic() +
-  # changing title and axes' titles
-  labs(title = "Time spent on job search decreases as time on work and school increases",
-       x = "Outside engagements (hours)",
-       y = "Time spent on job search (min)")
-
-# displaying object
-visual_test
-```
-
-*Appears mostly monotonic, in that it decreases in one direction*
+*Note: definitely not normally distributed*
 
 ### Checklist of assumptions
 
@@ -461,8 +432,11 @@ kruskal.test(
 ```{r}
 #| label: kruskal-wallis-effect-size
 
+# running an effect size for kruskal-wallis
+# df: personal_data_clean
 personal_data_clean %>% 
   kruskal_effsize(
+    # effect size of difference in job search by stress
     job_search ~ stress)
 ```
 
@@ -471,27 +445,40 @@ personal_data_clean %>%
 ```{r}
 
 # creating a new object
-
-kruskal_visual <- ggplot(data = personal_data_clean,
+kruskal_visual <- 
+  # base layer: ggplot
+  ggplot(
+    # df: personal_data_clean
+    data = personal_data_clean,
+    # x-axis: stress
+    # y-axis: job_search
+    # color by stress
                          mapping = aes(x = stress,
                                        y = job_search,
                                        color = stress)) +
+  # first layer: boxplot
   geom_boxplot() +
+  # second layer: scatterplot to display underlying data
   geom_point(alpha = 0.4) +
+  # changing title and axes' titles
   labs(title = "Time spent on job search does not differ by level of stress",
        x = "Level of stress (0-3)",
        y = "Time spent on job search (min)") +
+  # changing theme
   theme_bw() +
+  # getting rid of legend
   theme(legend.position = "none") +
-  scale_color_manual(values = c("darkred", "hotpink", "darkorchid", "magenta")) +
+  # changing colors
+  scale_color_manual(values = c("darkred", "pink", "darkorchid", "magenta")) +
   # getting rid of grid lines 
   theme(panel.grid.major = element_blank(),
         panel.grid.minor= element_blank())
 
+# displaying object
 kruskal_visual
 ```
 
-## 3d. Write a caption
+## 3e. Write a caption
 
 **Figure 2. Time spent on job search does not differ by level of stress.** Small transparent dots represent measurements of time spent on job search at different levels of stress, from a scale of 1-3. Center most line represents median, top of box represents the upper quartile, bottom of box represents lower quartile. Upper whisker represents the maximum and lower whisker represents the minimum. Filled in points represent outliers. Data collected by: Helena Parsons, date of most recent observation is June 4th, 2026.
 

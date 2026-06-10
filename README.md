@@ -1,9 +1,10 @@
 # ENVS-193DS_spring-2026_final
+
 Completing final project for ENVS 193DS
 
 ## General information
 
-This repo provides the code and anaylsis for the Spring 2026 Final for ENVS 193DS.
+This repo provides the code and anaylsis for the Spring 2026 Final for ENVS 193DS, for problems 1, 2, and 3.
 
 ## Data and file information
 
@@ -13,4 +14,4 @@ There is a `code` folder in which the code for all problems is stored.
 
 ## Rendered output
 
-The rendered pdf for the final is [here]()
+The rendered pdf for the final is [here](https://github.com/hparsons333/ENVS-193DS_spring-2026_final/blob/main/code/Final.pdf)
