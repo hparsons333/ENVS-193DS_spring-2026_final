@@ -154,9 +154,9 @@ Tree height is continuous data. Nest occurrence may be influenced by tree height
 ## 2d. Table of models
 
 | Model number | Ant species | Tree height | Predictor list |
-|---------------|:-------------:|:-------------:|:-----------------------------------------------:|
-| 0 | X                           | X                                     | all predictors (full model)                     |
-| 1 |  | x                                      | tree height W/interaction effect of ant species |
+|--------------|:------------:|:------------:|:------------------------------:|
+| 0 | X | X | all predictors (full model) |
+| 1 |  | x | tree height W/interaction effect of ant species |
 
 ## 2e. Run the models
 
@@ -194,11 +194,8 @@ par(mfrow = c(2,2))
 # generating diagnostic plots
 plot(simulateResiduals(model1))
 ```
-*Note:*
-*- The residuals appear to follow a normal distribution*
-*- The residuals don't appear to be dispersed from the normal distribution*
-*- There doesn't appear to be any outliers*
 
+*Note:* *- The residuals appear to follow a normal distribution* *- The residuals don't appear to be dispersed from the normal distribution* *- There doesn't appear to be any outliers*
 
 ## 2h. Visualize the model predictions
 
@@ -292,11 +289,11 @@ summary(model1)
 
 ## 2k. Interpret your results
 
-Bird nest occurrence tends to significantly increase with increasing tree height in the presence of *C. nigriceps* as the trendline visualizes in Figure 1. 
+Bird nest occurrence tends to significantly increase with increasing tree height in the presence of *C. nigriceps* as the trendline visualizes in Figure 1.
 
-*C. nigriceps* ants are more aggressive than *C. sjostedti* and *C. mimosae*, and birds may be selecting for these trees that are both taller and host the more aggressive acacia ant species, because this increases their protection from predators and therefore their fitness. 
+*C. nigriceps* ants are more aggressive than *C. sjostedti* and *C. mimosae*, and birds may be selecting for these trees that are both taller and host the more aggressive acacia ant species, because this increases their protection from predators and therefore their fitness.
 
-In the presence of *C. nigriceps*, with every 1 cm increase in height the odds of a bird nesting in a tree increases by a factor of 1.1 (95% CI: [0,0], p = 0.008, $\alpha$ = 0.05). In the presence of *C. nigriceps*, with a tree height of 600 cm, the probability of a bird nesting in that tree is 1 (95% CI: [1,1]).
+In the presence of *C. nigriceps*, with every 1 cm increase in height the odds of a bird nesting in a tree increases by a factor of 1.1 (95% CI: \[0,0\], p = 0.008, $\alpha$ = 0.05). In the presence of *C. nigriceps*, with a tree height of 600 cm, the probability of a bird nesting in that tree is 1 (95% CI: \[1,1\]).
 
 # Problem 3. Affective and explaoratory visualizations
 
@@ -324,7 +321,7 @@ The two suggestions that I got from workshop and implemented were to use briefca
 
 **Based on your response variable and one of your potential predictor variables (your focal variable or otherwise), propose one analysis that we talked about this quarter that you could apply to answer your research question(s).**
 
-I want to see if the time spent on my job search significantly varies between levels of stress, so I will run a Kruskal-wallis test. 
+I want to see if the time spent on my job search significantly varies between levels of stress, so I will run a Kruskal-wallis test.
 
 **Additionally, explain why this analysis is appropriate with regard to:**
 
@@ -365,8 +362,8 @@ personal_data_clean <-
     stress == "2" ~ "Two",
     stress == "3" ~ "Three"))
 ```
-*Note: I tried to run general linearized regressions and t.tests, but none of them met the assumptions because my response variable is discrete and my explanatory variables are not distributed in ways that meet the assumptions of the lm/glms, so I decided to remove the last two levels of my stress variable to be able to run the Kruskal-wallis.*
 
+*Note: I tried to run general linearized regressions and t.tests, but none of them met the assumptions because my response variable is discrete and my explanatory variables are not distributed in ways that meet the assumptions of the lm/glms, so I decided to remove the last two levels of my stress variable to be able to run the Kruskal-wallis.*
 
 ### Checking distribution of job_search and stress
 
@@ -387,6 +384,7 @@ stat_qq_line( col = "black")
 # displaying object
 qqplot_job
 ```
+
 *Note: not really normally distributed*
 
 ```{r}
@@ -406,7 +404,8 @@ stat_qq_line( col = "black")
 # displaying object
 qqplot_stress
 ```
-*Note: definitely not normally distributed, so Spearman's $\rho$ is required.*
+
+*Note: definitely not normally distributed, so Spearman's* $\rho$ is required.
 
 ### Displaying visual relationship
 
@@ -435,12 +434,13 @@ visual_test <-
 # displaying object
 visual_test
 ```
+
 *Appears mostly monotonic, in that it decreases in one direction*
 
 ### Checklist of assumptions
 
-1. The observations are independent of one another
-2. There are at least 5 observations per group.
+1.  The observations are independent of one another
+2.  There are at least 5 observations per group.
 
 ### Running a Kruskal-wallis
 
@@ -455,6 +455,7 @@ kruskal.test(
   personal_data_clean
 )
 ```
+
 *Note: no significant difference between groups*
 
 ```{r}
@@ -492,4 +493,8 @@ kruskal_visual
 
 ## 3d. Write a caption
 
-**Figure 2. Time spent on job search does not differ by level of stress.** Small transparent dots represent measurements of time spent on job search at different levels of stress, from a scale of 1-3. Center most line represents median, top of box represents the upper quartile, bottom of box represents lower quartile. Upper whisker represents the maximum and lower whisker represents the minimum. Filled in points represent outliers. Data collected by: Helena Parsons, date of most recent observation is June 4th, 2026. 
+**Figure 2. Time spent on job search does not differ by level of stress.** Small transparent dots represent measurements of time spent on job search at different levels of stress, from a scale of 1-3. Center most line represents median, top of box represents the upper quartile, bottom of box represents lower quartile. Upper whisker represents the maximum and lower whisker represents the minimum. Filled in points represent outliers. Data collected by: Helena Parsons, date of most recent observation is June 4th, 2026.
+
+## 3f. Write about your results
+
+Our results suggest that I cannot reject the null hypothesis that there is no significant difference in the time spent on my job search between levels of stress () difference (𝞰^2^ = 0.07) difference in the time spent on my job search between levels of stress 
