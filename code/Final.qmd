@@ -20,6 +20,8 @@ library(here)
 library(MuMIn)
 library(ggeffects)
 library(DHARMa)
+library(janitor)
+library(readxl)
 ```
 
 # Problem 1. Research writing
@@ -38,7 +40,7 @@ library(DHARMa)
 
 **What statistical tests did your co-worker use?**
 
-**Clearly connect the test to the part that you are addressing (e.g. “In part 1, they used ________. In part 2, they used ________.”).**
+**Clearly connect the test to the part that you are addressing (e.g. “In part 1, they used \_\_\_\_\_\_\_\_. In part 2, they used \_\_\_\_\_\_\_\_.”).**
 
 In part 1, they used a simple linear regression to test if distance to water edge predicted American Avocet microhabitat use. In part 2, they used a correlation coefficient test to see if there was a relationship between bird species and habitat.
 
@@ -150,23 +152,25 @@ Tree height is continuous data. Nest occurrence may be influenced by tree height
 ## 2d. Table of models
 
 | Model number | Ant species | Tree height | Predictor list |
-|-------------|:-----------:|:-----------:|:-------------------------------:|
-| 0 | X | X | all predictors (full model) |
-| 1 |  | x | tree height W/interaction effect of ant species |
+|---------------|:-------------:|:-------------:|:-----------------------------------------------:|
+| 0 | X                           | X                                     | all predictors (full model)                     |
+| 1 |  | x                                      | tree height W/interaction effect of ant species |
 
 ## 2e. Run the models
 
 ```{r}
 
 # model 0: all predictors
-model0 <- lm(
+model0 <- glm(
   case_control ~ ant_species_name + height_cm, # formula: all predictors
-  data = nests_clean) # clean data frame
+  data = nests_clean, # clean data frame
+  family = "binomial") # family is binary response variable
 
 # model 1: tree height as a predictor with interaction effect of ant_species
-model1 <- lm(
+model1 <- glm(
   case_control ~ height_cm * ant_species_name, # formula: height_cm w/interaction effect of ant_species
-  data = nests_clean) # clean data frame
+  data = nests_clean, # clean data frame
+  family = "binomial") # family is binary response variable
 ```
 
 ## 2f. Select the best model
@@ -186,8 +190,13 @@ The best model as determined by Akaike’s Information Criterion (AIC) was the m
 # displaying plots in 2x2 grid
 par(mfrow = c(2,2))
 # generating diagnostic plots
-plot(model1)
+plot(simulateResiduals(model1))
 ```
+*Note:*
+*- The residuals appear to follow a normal distribution*
+*- The residuals don't appear to be dispersed from the normal distribution*
+*- There doesn't appear to be any outliers*
+
 
 ## 2h. Visualize the model predictions
 
@@ -251,17 +260,12 @@ ggplot(
 ```{r}
 #| label: model-predictions
 
-# creating a new object
-preds_2 <- 
   # generating model based estimate
   ggpredict(
     # model: model1
     model1,
     # terms: case_control as predicted by effect of height_cm by ant species
-                   terms = c("height_cm", "ant_species_name")) |>
-  # renaming
-  rename(height_cm = x,
-         ant_species_name = group)
+                   terms = c("height_cm [600]", "ant_species_name"))
 ```
 
 ## 2k. Interpret your results
@@ -280,9 +284,9 @@ The visualization that I created in homework 2 were very basic, and didn't clear
 
 I chose to use the scatter plot for both my exploratory visualization and my affective visualization, and between all my visualizations there seems to be the most weight on the left side of the axis rather than the right, most likely because both the stress and outside engagement variables increased as time spent on the job search decreased.
 
-**- What patterns (e.g. differences in means/counts/proportions/medians, trends through time, relationships between variables) do you see in each visualization? Are these different between visualizations? If so, why? If not, why not?** 
+**- What patterns (e.g. differences in means/counts/proportions/medians, trends through time, relationships between variables) do you see in each visualization? Are these different between visualizations? If so, why? If not, why not?**
 
-I mostly see what could be described as a negative linear relationship, or a negative trend, between both my outside engagements and time spent on the job search, and my level of stress and time spent on the job search. These are similar because when I am stressed or when I have a lot of outside engagements, I either feel less motivated to spend time on a job search (because I am concerned about other work that I have) or because I do not have the time available to apply. 
+I mostly see what could be described as a negative linear relationship, or a negative trend, between both my outside engagements and time spent on the job search, and my level of stress and time spent on the job search. These are similar because when I am stressed or when I have a lot of outside engagements, I either feel less motivated to spend time on a job search (because I am concerned about other work that I have) or because I do not have the time available to apply.
 
 **- What kinds of feedback did you get during week 9 in workshop or from the instructors? How did you implement or try those suggestions? If you tried and kept those suggestions, explain how and why; if not, explain why not.**
 
@@ -292,54 +296,126 @@ The two suggestions that I got from workshop and implemented were to use briefca
 
 **Based on your response variable and one of your potential predictor variables (your focal variable or otherwise), propose one analysis that we talked about this quarter that you could apply to answer your research question(s).**
 
-Because I created my affective visualization based on stress as a predictor variable of the time spent on my job search, I want to run an ANOVA to see if there is any difference in the measure of central tendency for the time spent on my job search between levels of stress. 
+I want to test if there is actually a difference in the time spent on my job search among different levels of stress, so I will run a Kruskal-wallis test. 
 
 **Additionally, explain why this analysis is appropriate with regard to:**
 
-**- your question** 
+**- your question**
 
-This analysis is appropriate in regards to my question because I am comparing the mean time spent on my job search across more than three groups, which are the levels of stress that I determined.
+This analysis is appropriate in regards to my question because I have multiple groups that I am testing (levels of stress), and I don't have normally distributed data. 
 
 **your variables and what types of variables they are**
 
-My variables are my response variable, which is continuous data counted as the time I spent on the job search in minutes, and my explanatory variable, which is categorical data recorded as the level of stress I felt on the day I took my observation.
-
-*Note: (I think that the time I spent on the job search can be counted as continuous in this case, because you could count them as decimals.)*
+My variables are my response variable, which is discrete data counted as the time I spent on the job search in minutes, and my explanatory variable, which is categorical data recorded as the level of stress I felt on the day I took my observation.
 
 ## 3c. Check your assumptions and run your analysis
 
+### Creating an object for personal data
 
 ```{r}
 #| label: reading-in-data
 
 # creating new object
-persona_data <- 
+personal_data <- 
   # reading csv
   read_csv(
     # directing function to data folder
     here("data",
          # csv: Personal Data - Sheet1.csv)
-         "Personal Data - Sheet1.csv"
-  ))
+         "personal-data.csv"))
+         
+personal_data <- filter(stress == "0" | stress == "1" | stress == "2" | stress == "3")
+                        
 ```
+### Checking distribution of job_search and stress
 
 ```{r}
 # creating new object
-qqplot_temp <- 
+qqplot_job <- 
   # baselayer: ggplot
   ggplot(
-    # df: 
-    data = kelp,
-    # variable: temp
-       aes(sample = temp_c)) +
+    # df: personal_data
+    data = personal_data,
+    # variable: job_search
+       aes(sample = job_search)) +
   # first layer: distribution of temp observations
        stat_qq(distribution=qnorm) +
-  # second layer: expected distribution of temp
+  # second layer: expected distribution of time spent on job search
 stat_qq_line( col = "black")
 
 # displaying object
-qqplot_temp
+qqplot_job
 ```
+*Note: not really normally distributed*
 
+```{r}
+# creating new object
+qqplot_stress <- 
+  # baselayer: ggplot
+  ggplot(
+    # df: personal_data
+    data = personal_data,
+    # variable: job_search
+       aes(sample = stress)) +
+  # first layer: distribution of temp observations
+       stat_qq(distribution=qnorm) +
+  # second layer: expected distribution of time spent on job search
+stat_qq_line( col = "black")
+
+# displaying object
+qqplot_stress
+```
+*Note: definitely not normally distributed, so Spearman's $\rho$ is required.*
+
+### Displaying visual relationship
+
+```{r}
+# creating a new object
+visual_test <- 
+  # base layer: ggplot
+  ggplot(
+    # df: personal_data
+    data = personal_data,
+    # x-axis: outside_eng
+    # y-axis: job_search
+       mapping = aes(x = outside_eng,
+                     y = job_search)) +
+  # first layer: scatterplot
+  geom_point(
+    # changing color of points
+    color = "magenta4") +
+  # changing theme
+  theme_classic() +
+  # changing title and axes' titles
+  labs(title = "Time spent on job search decreases as time on work and school increases",
+       x = "Outside engagements (hours)",
+       y = "Time spent on job search (min)")
+
+# displaying object
+visual_test
+```
+*Appears mostly monotonic, in that it decreases in one direction*
+
+### Checklist of assumptions
+
+1. There is a monotonic relationship
+2. The observations are independent of one another
+
+### Running a predictive model
+
+```{r}
+#correlation test
+model2 <- lm(
+  job_search ~ outside_eng, # formula: all predictors
+  data = personal_data) # clean data frame
+
+model2
+```
+```{r}
+# displaying plots in 2x2 grid
+par(mfrow = c(2,2))
+# generating diagnostic plots
+plot(model2)
+```
 
 
