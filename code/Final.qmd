@@ -201,7 +201,7 @@ plot(simulateResiduals(model1))
 ## 2h. Visualize the model predictions
 
 ```{r}
-#| label: model-predictions
+#| label: first-model-prediction
 
 # creating a new object
 preds <- 
@@ -322,13 +322,13 @@ The two suggestions that I got from workshop and implemented were to use briefca
 
 **Based on your response variable and one of your potential predictor variables (your focal variable or otherwise), propose one analysis that we talked about this quarter that you could apply to answer your research question(s).**
 
-I want to test if there is actually a difference in the time spent on my job search among different levels of stress, so I will run a Kruskal-wallis test. 
+I want to see if the time spent on my job search significantly varies between levels of stress, so I will run a Kruskal-wallis test. 
 
 **Additionally, explain why this analysis is appropriate with regard to:**
 
 **- your question**
 
-This analysis is appropriate in regards to my question because I have multiple groups that I am testing (levels of stress), and I don't have normally distributed data. 
+This analysis is appropriate in regards to my question because I want to see if there is really a difference as my levels of stress increase, and because I would be comparing how the response variable changes across multiple groups. Additionally, because my variables are not normally distributed, I need to run a non-parametric test.
 
 **your variables and what types of variables they are**
 
@@ -339,7 +339,7 @@ My variables are my response variable, which is discrete data counted as the tim
 ### Creating an object for personal data
 
 ```{r}
-#| label: reading-in-data
+#| label: reading-in-personal-data
 
 # creating new object
 personal_data <- 
@@ -348,10 +348,8 @@ personal_data <-
     # directing function to data folder
     here("data",
          # csv: Personal Data - Sheet1.csv)
-         "personal-data.csv"))
-         
-personal_data <- filter(stress == "0" | stress == "1" | stress == "2" | stress == "3")
-                        
+         "personal-data.csv")) |>
+  filter(stress == "0" | stress == "1" stress == "2" | stress = "3")
 ```
 ### Checking distribution of job_search and stress
 
@@ -382,7 +380,7 @@ qqplot_stress <-
     # df: personal_data
     data = personal_data,
     # variable: job_search
-       aes(sample = stress)) +
+       aes(sample = outside_eng)) +
   # first layer: distribution of temp observations
        stat_qq(distribution=qnorm) +
   # second layer: expected distribution of time spent on job search
@@ -424,18 +422,21 @@ visual_test
 
 ### Checklist of assumptions
 
-1. There is a monotonic relationship
-2. The observations are independent of one another
+1. The observations are independent of one another
+2. My job search variable seems to follow a poisson distribution, while my outside engagement variable seems to follow a binomial distribution.
+3. 
 
 ### Running a predictive model
 
 ```{r}
 #correlation test
-model2 <- lm(
-  job_search ~ outside_eng, # formula: all predictors
+model2 <- glm(
+  job_search ~ stress, # formula: all predictors
   data = personal_data) # clean data frame
 
 model2
+
+plot(simulateResiduals(model2))
 ```
 ```{r}
 # displaying plots in 2x2 grid
