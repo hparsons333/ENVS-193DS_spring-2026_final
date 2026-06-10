@@ -154,7 +154,7 @@ Tree height is continuous data. Nest occurrence may be influenced by tree height
 ## 2d. Table of models
 
 | Model number | Ant species | Tree height | Predictor list |
-|--------------|:------------:|:------------:|:------------------------------:|
+|----------------|:--------------:|:--------------:|:----------------------:|
 | 0 | X | X | all predictors (full model) |
 | 1 |  | x | tree height W/interaction effect of ant species |
 
@@ -497,4 +497,6 @@ kruskal_visual
 
 ## 3f. Write about your results
 
-Our results suggest that I cannot reject the null hypothesis that there is no significant difference in the time spent on my job search between levels of stress () difference (𝞰^2^ = 0.07) difference in the time spent on my job search between levels of stress 
+Our results suggest that I cannot reject the null hypothesis that there is no significant difference in the time spent on my job search between levels of stress (Kruskal-Wallis test: x^2^(3) = 5.16, p = 0.16, $\alpha$ = 0.05).
+
+There was a moderate difference (𝜂^2^ = 0.07), and this might suggest that with a larger sample size a different result may be determined. There might also be a difference in results with more or less levels of stress created for the categorical stress variable.
